@@ -1,0 +1,22 @@
+<ion-view view-title="{{vm.title}}">
+  <ion-content scroll="false">
+    <div>
+      <h4>Account: {{vm.account}}</h4>
+      <h4>CODE: {{vm.code}}</h4>
+      <h4>Deposit Amount: {{vm.depositTotal}}</h4>
+    </div>
+    <ion-scroll>
+      <ion-list>
+        <ion-item class="item item-icon-right" ng-repeat="check in vm.checks" ng-click="vm.showImages()">
+          <i class="icon ion-ios-arrow-right"></i>
+          <h2>{{check.transID}}</h2>
+          <h4>{{check.amount}}</h4>
+          <h4>{{check.date}}</h4>
+          <h4>{{check.time}}</h4>
+          <h4>{{check.account}}</h4>
+          <h4>{{check.account}}</h4>
+        </ion-item>
+      </ion-list>
+    </ion-scroll>
+  </ion-content>
+</ion-view>

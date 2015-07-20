@@ -1,0 +1,43 @@
+[
+  {
+    "id": 2,
+    "account": "xxxxxx8598",
+    "code": "Check22",
+    "depositTotal": "$1,300.00",
+    "checks": [
+                {
+                  "id": 1,
+                  "transID": "4841561518918615",
+                  "amount": "$500.00",
+                  "date": "5/25/15",
+                  "time": "3:16pm",
+                  "account": "xxxxxx5265"
+                },
+                {
+                  "id": 2,
+                  "transID": "1891844845151561",
+                  "amount": "$1,300.00",
+                  "date": "5/25/15",
+                  "time": "3:18pm",
+                  "account": "xxxxxx5265"
+                },
+                {
+                  "id": 3,
+                  "transID": "4861518941815156",
+                  "amount": "$200.00",
+                  "date": "5/25/15",
+                  "time": "3:20pm",
+                  "account": "xxxxxx5265"
+                },
+                {
+                  "id": 4,
+                  "transID": "2558418189156156",
+                  "amount": "$300.00",
+                  "date": "5/25/15",
+                  "time": "3:24pm",
+                  "account": "xxxxxx5265"
+                }
+              ]
+  }
+
+]
