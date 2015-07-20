@@ -43,10 +43,9 @@
         // sample check object in checks array {"id": 1, "transID": "4841561518918615", "amount": "$500.00", "date": "5/25/15", "time": "3:16pm", "account": "xxxxxx5265" }
 
         //check images modal
-        vm.checkFront = "img/hand-written_check.jpg";
-        vm.checkBack = "img/hs-check-back.jpg";
         vm.closeImages = closeImages;
         vm.showImages = showImages;
+        vm.checkIndex = null;
 
         activate();
 
@@ -68,7 +67,8 @@
         }
 
         // Open the check images modal
-        function showImages() {
+        function showImages(index) {
+            vm.checkIndex = index;
             vm.modal.show();
             screen.lockOrientation('landscape');
         }
