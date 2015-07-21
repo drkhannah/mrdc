@@ -6,10 +6,8 @@
                 <div class="input-label">
                     Select Account
                 </div>
-                <select>
-                    <option>Blue</option>
-                    <option selected>Green</option>
-                    <option>Red</option>
+                <select ng-model="vm.selectedAccount">
+                    <option ng-repeat="account in vm.accounts">{{account.accountNumber}}</option>
                 </select>
             </label>
             <!-- Deposit Amount -->
@@ -18,10 +16,11 @@
                 <input class="deposit-amount-input" type="text" ng-model="vm.depositAmount" ng-currency>
             </label>
             <!-- Scan Check Front Button -->
-            <ion-item class="button button-full button-light">
+            <div class="item item-thumbnail-right" ng-click="vm.captureCheckFront()">
                 Capture Front of Check
-            </ion-item>
-            <ion-item class="button button-full button-light">
+                <img ng-src="{{vm.checkFrontImage}}">
+            </div>
+            <ion-item class="item item-thumbnail-left">
                 Capture Back of Check
             </ion-item>
         </div>

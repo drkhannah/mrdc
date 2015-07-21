@@ -25,7 +25,7 @@
                     defer.resolve(data);
                 })
                 .error(function(error){
-                    console.log('loadHistory error: ' + error);
+                    console.log('loadHistory() error: ' + error);
                 });
             return defer.promise;
         }
