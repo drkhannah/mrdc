@@ -7696,3 +7696,6 @@ a.button {
 .check-image {
   width: 100%;
   height: 100%; }
+
+input.deposit-amount-input {
+  text-align: right; }

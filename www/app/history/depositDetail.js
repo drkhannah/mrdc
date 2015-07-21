@@ -13,10 +13,10 @@
     function stateProvider($stateProvider){
         $stateProvider
             .state('app.history-detail', {
-                url: "/history/:id",
+                url: '/history/:id',
                 views: {
                     'menuContent': {
-                        templateUrl: "app/history/depositDetail.html",
+                        templateUrl: 'app/history/depositDetail.html',
                         controller: 'HistoryDetail as vm',
                         resolve: {
                             historyDetailPromise: function(historyService, $stateParams){

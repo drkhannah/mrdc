@@ -3,9 +3,10 @@
 
     angular.module('app.core', [
         /* Ionic/Angular modules*/
-        'ionic'
+        'ionic',
 
         /* 3rd party modules*/
+        'ng-currency'
     ]);
     
 })();

@@ -30,7 +30,7 @@
             var vm = this;
 
             vm.activate = activate;
-            vm.title = 'Deposit';
+            vm.title = 'Make Deposit';
 
             activate();
 
