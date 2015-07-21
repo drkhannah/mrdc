@@ -12,8 +12,8 @@
                   "date": "5/25/15",
                   "time": "3:16pm",
                   "account": "xxxxxx5265",
-                  "checkFront": "hand-written_check.jpg",
-                  "checkBack": "hs-check-back.jpg"
+                  "checkFront": "hand_writen_check.jpg",
+                  "checkBack": "hand_writen_check.jpg"
                 },
                 {
                   "id": 2,
@@ -22,8 +22,8 @@
                   "date": "5/25/15",
                   "time": "3:18pm",
                   "account": "xxxxxx5265",
-                  "checkFront": "5write_a_check_step5_sign_memo.jpg",
-                  "checkBack": "hs-check-back.jpg"
+                  "checkFront": "hand_writen_check.jpg",
+                  "checkBack": "hand_writen_check.jpg"
                 },
                 {
                   "id": 3,
@@ -32,8 +32,8 @@
                   "date": "5/25/15",
                   "time": "3:20pm",
                   "account": "xxxxxx5265",
-                  "checkFront": "ar135381173984323.png",
-                  "checkBack": "hs-check-back.jpg"
+                  "checkFront": "hand_writen_check.jpg",
+                  "checkBack": "hand_writen_check.jpg"
                 },
                 {
                   "id": 4,
@@ -42,8 +42,8 @@
                   "date": "5/25/15",
                   "time": "3:24pm",
                   "account": "xxxxxx5265",
-                  "checkFront": "hand-written_check.jpg",
-                  "checkBack": "hs-check-back.jpg"
+                  "checkFront": "hand_writen_check.jpg",
+                  "checkBack": "hand_writen_check.jpg"
                 }
               ]
   }
