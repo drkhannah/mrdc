@@ -39,7 +39,6 @@
         vm.account = historyDetailPromise[0].deposit.account;
         vm.depositAmount = historyDetailPromise[0].deposit.amount;
         vm.checks = historyDetailPromise[0].checks;
-        // sample check object in checks array {"id": 1, "transID": "4841561518918615", "amount": "$500.00", "date": "5/25/15", "time": "3:16pm", "account": "xxxxxx5265" }
 
         //check images modal
         vm.closeImages = closeImages;
