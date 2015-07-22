@@ -35,10 +35,9 @@
 
         vm.activate = activate;
         vm.title = 'HistoryDetail';
-        vm.id = historyDetailPromise[0].id;
-        vm.account = historyDetailPromise[0].account;
-        vm.code = historyDetailPromise[0].code;
-        vm.depositTotal = historyDetailPromise[0].depositTotal;
+        vm.id = historyDetailPromise[0].deposit.id;
+        vm.account = historyDetailPromise[0].deposit.account;
+        vm.depositAmount = historyDetailPromise[0].deposit.amount;
         vm.checks = historyDetailPromise[0].checks;
         // sample check object in checks array {"id": 1, "transID": "4841561518918615", "amount": "$500.00", "date": "5/25/15", "time": "3:16pm", "account": "xxxxxx5265" }
 

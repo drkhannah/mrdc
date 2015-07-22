@@ -2,19 +2,16 @@
   <ion-content scroll="false">
     <div>
       <h4>Account: {{vm.account}}</h4>
-      <h4>CODE: {{vm.code}}</h4>
-      <h4>Deposit Amount: {{vm.depositTotal}}</h4>
+      <h4>Deposit Amount: {{vm.depositAmount}}</h4>
     </div>
     <ion-scroll>
       <ion-list>
         <ion-item class="item item-thumbnail-left item-icon-right" ng-repeat="check in vm.checks" ng-click="vm.showImages($index)">
-          <img ng-src="img/{{vm.checks[$index].checkFront}}" />
-          <h2>{{check.transID}}</h2>
+          <img ng-src="{{vm.checks[$index].imgDataFront}}" />
+          <h2>{{check.id}}</h2>
+          <h4>{{check.number}}</h4>
           <h4>{{check.amount}}</h4>
-          <h4>{{check.date}}</h4>
-          <h4>{{check.time}}</h4>
-          <h4>{{check.account}}</h4>
-          <h4>{{check.account}}</h4>
+          <h4>{{check.ts}}</h4>
           <i class="icon ion-ios-arrow-right"></i>
         </ion-item>
       </ion-list>
