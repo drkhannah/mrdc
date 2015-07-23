@@ -35,10 +35,10 @@
 
         vm.activate = activate;
         vm.title = 'HistoryDetail';
-        vm.id = historyDetailPromise[0].deposit.id;
-        vm.account = historyDetailPromise[0].deposit.account;
-        vm.depositAmount = historyDetailPromise[0].deposit.amount;
-        vm.checks = historyDetailPromise[0].checks;
+        vm.id = historyDetailPromise.deposit.id;
+        vm.account = historyDetailPromise.deposit.account;
+        vm.depositAmount = historyDetailPromise.deposit.amount;
+        vm.checks = historyDetailPromise.checks;
 
         //check images modal
         vm.closeImages = closeImages;

@@ -6,13 +6,12 @@
     </div>
     <ion-scroll>
       <ion-list>
-        <ion-item class="item item-thumbnail-left item-icon-right" ng-repeat="check in vm.checks" ng-click="vm.showImages($index)">
-          <img ng-src="{{vm.checks[$index].imgDataFront}}" />
+        <ion-item class="item item-thumbnail-right" ng-repeat="check in vm.checks" ng-click="vm.showImages($index)">
+          <img class="check-thumbnail" ng-src="{{vm.checks[$index].imgDataFront}}" />
           <h2>{{check.id}}</h2>
           <h4>{{check.number}}</h4>
           <h4>{{check.amount}}</h4>
           <h4>{{check.ts}}</h4>
-          <i class="icon ion-ios-arrow-right"></i>
         </ion-item>
       </ion-list>
     </ion-scroll>

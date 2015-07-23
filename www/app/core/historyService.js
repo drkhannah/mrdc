@@ -20,7 +20,7 @@
 
         function loadHistory() {
             var defer = $q.defer();
-            $http.get('data/history.json')
+            $http.get('https://itktt4.keybank.com/ktt/m/home/acceptDisclosure?action=deposits')
                 .success(function (data) {
                     defer.resolve(data);
                 })
@@ -32,7 +32,7 @@
 
         function historyDetail(id) {
             var defer = $q.defer();
-            $http.get('data/historyDetail' + id + '.json')
+            $http.get('https://itktt4.keybank.com/ktt/m/home/acceptDisclosure?action=deposit&id=' + id)
                 .success(function (data) {
                     defer.resolve(data);
                 }).error(function(error){
