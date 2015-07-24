@@ -1,9 +1,9 @@
 <ion-view view-title="{{vm.title}}">
   <ion-content>
-    <a class="button button-full button-light" href="#/app/deposit/depositSingleCheck">
+    <a class="button button-full button-light" ng-click="vm.singleDeposit()">
       Make a Single Check Deposit
     </a>
-    <a class="button button-full button-light" href="#/app/deposit/depositMultiple">
+    <a class="button button-full button-light" ng-click="vm.multipleDeposit()">
       Make a Multiple Check Deposit
     </a>
   </ion-content>

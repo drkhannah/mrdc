@@ -1,0 +1,33 @@
+<ion-view view-title="{{vm.title}}">
+    <ion-content>
+        <div class="list">
+            <!-- Account Select -->
+            <label class="item item-input item-select">
+                <div class="input-label">
+                    Select Account
+                </div>
+                <select ng-model="vm.selectedAccount">
+                    <option ng-repeat="account in vm.accounts">{{account.accountNumber}}</option>
+                </select>
+            </label>
+            <!-- Deposit Amount -->
+            <label class="item item-input">
+                <span class="input-label">Deposit Amount:</span>
+                <input class="deposit-amount-input" type="text" ng-model="vm.depositAmount" ng-currency>
+            </label>
+            <!-- Scan Check Front Button -->
+            <div class="item item-thumbnail-right" ng-click="vm.miSnapCheckFront()">
+                Capture Front of Check
+                <img ng-src="{{vm.checkFrontImage}}">
+            </div>
+            <!-- Scan Check Back Button -->
+            <div class="item item-thumbnail-right" ng-click="vm.miSnapCheckBack()">
+                Capture Back of Check
+                <img ng-src="{{vm.checkBackImage}}">
+            </div>
+            <button ng-show="vm.checkBackImage !== '' && vm.checkBackImage !== null && vm.checkFrontImage !== '' && vm.checkFrontImage !== null" class="button button-full button-positive">
+                Submit Check
+            </button>
+        </div>
+    </ion-content>
+</ion-view>

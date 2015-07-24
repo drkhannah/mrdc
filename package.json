@@ -23,6 +23,10 @@
     {
       "locator": "https://github.com/gbenvenuti/cordova-plugin-screen-orientation.git",
       "id": "cordova-plugin-screen-orientation"
+    },
+    {
+      "locator": "/Users/hannade/Documents/com.keybank.MiSnapPlugin",
+      "id": "com.keybank.MiSnapPlugin"
     }
   ],
   "cordovaPlatforms": [

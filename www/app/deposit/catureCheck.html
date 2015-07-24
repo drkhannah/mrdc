@@ -16,13 +16,18 @@
                 <input class="deposit-amount-input" type="text" ng-model="vm.depositAmount" ng-currency>
             </label>
             <!-- Scan Check Front Button -->
-            <div class="item item-thumbnail-right" ng-click="vm.captureCheckFront()">
+            <div class="item item-thumbnail-right" ng-click="vm.miSnapCheckFront()">
                 Capture Front of Check
                 <img ng-src="{{vm.checkFrontImage}}">
             </div>
-            <div class="item item-thumbnail-left">
+            <!-- Scan Check Back Button -->
+            <div class="item item-thumbnail-right" ng-click="vm.miSnapCheckBack()">
                 Capture Back of Check
+                <img ng-src="{{vm.checkBackImage}}">
             </div>
+            <button ng-show="vm.checkBackImage !== '' && vm.checkBackImage !== null && vm.checkFrontImage !== '' && vm.checkFrontImage !== null" class="button button-full button-positive">
+                Submit Check
+            </button>
         </div>
     </ion-content>
 </ion-view>

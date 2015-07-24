@@ -10,7 +10,11 @@
     /* @ngInject */
     function depositService($http, $q) {
         var service = {
-            loadAccounts: loadAccounts
+            loadAccounts: loadAccounts,
+            singleDeposit: true,
+            checksList: [],
+            depositAmount: null,
+            account: null
         };
 
         return service;
@@ -29,7 +33,6 @@
             return defer.promise;
         }
 
-        
     }
     
 })();
