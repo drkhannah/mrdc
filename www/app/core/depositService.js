@@ -30,7 +30,6 @@
             $http.get('data/depositAccounts.json')
                 .success(function(data){
                     defer.resolve(data);
-                    console.log ('depositService Object: ' + angular.toJson(service))
                 })
                 .error(function (error) {
                     console.log('loadAccounts() error:' + error)
