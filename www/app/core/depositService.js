@@ -5,16 +5,20 @@
         .module('app.core')
         .factory('depositService', depositService);
 
-    depositService.$inject = ['$http', '$q'];
+    depositService.$inject = ['$http', '$q', '$ionicHistory', '$state'];
 
     /* @ngInject */
-    function depositService($http, $q) {
+    function depositService($http, $q, $ionicHistory, $state) {
         var service = {
             loadAccounts: loadAccounts,
-            singleDeposit: true,
-            checksList: [],
-            depositAmount: null,
-            account: null
+            cancelDeposit: cancelDeposit,
+            type: undefined,
+            account: undefined,
+            amount: undefined,
+            checkFrontImage: undefined,
+            checkBackImage: undefined,
+            checks: [],
+            checksTotal: undefined
         };
 
         return service;
@@ -26,11 +30,31 @@
             $http.get('data/depositAccounts.json')
                 .success(function(data){
                     defer.resolve(data);
+                    console.log ('depositService Object: ' + angular.toJson(service))
                 })
                 .error(function (error) {
                     console.log('loadAccounts() error:' + error)
                 });
             return defer.promise;
+        }
+
+        function cancelDeposit() {
+
+            $ionicHistory.nextViewOptions({
+                disableBack: true
+            });
+
+            service.account = undefined;
+            service.type = undefined;
+            service.amount = undefined;
+            service.checkFrontImage = undefined;
+            service.checkBackImage = undefined;
+            service.checks = [];
+            service.checksTotal = undefined;
+            $ionicHistory.clearCache();
+            $state.go('app.deposit');
+
+            console.log ('depositService Object: ' + angular.toJson(service))
         }
 
     }

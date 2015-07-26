@@ -3,17 +3,18 @@ To customize the look and feel of Ionic, you can override the variables
 in ionic's _variables.scss file.
 
 For example, you might change some of the default colors:
+*/
 
 $light:                           #fff !default;
 $stable:                          #f8f8f8 !default;
-$positive:                        #387ef5 !default;
+$positive:                        #CE0000 !default;
 $calm:                            #11c1f3 !default;
 $balanced:                        #33cd5f !default;
 $energized:                       #ffc900 !default;
 $assertive:                       #ef473a !default;
 $royal:                           #886aea !default;
 $dark:                            #444 !default;
-*/
+
 
 // The path for our ionicons font files, relative to the built CSS in www/css
 $ionicons-font-path: "../lib/ionic/fonts" !default;
@@ -33,5 +34,28 @@ input.deposit-amount-input {
 img.check-thumbnail {
   height: 50%;
   vertical-align: middle;
+}
+
+img.check-thumbnail-deposit-review {
+  height: 50px;
+}
+
+.key-menu-icon:before {
+  content: url('../img/key.png');
+}
+
+.key-menu-logo:before, .key-menu-logo {
+  content: url('../img/keybank.png');
+  height: 30px;
+  margin-top: 5px;
+  margin-right: 5px;
+}
+
+.menu-header {
+  justify-content: flex-end;
+}
+
+img.capture-check-thumbnail {
+  height: 100px;
 }
 

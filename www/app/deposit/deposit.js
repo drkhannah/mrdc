@@ -7,7 +7,7 @@
         .controller('Deposit', Deposit);
 
         stateProvider.$inject = ['$stateProvider'];
-        Deposit.$inject = ['depositService', '$state'];
+        Deposit.$inject = ['depositService', '$state', '$ionicHistory'];
 
         /* @ngInject */
         function stateProvider($stateProvider){
@@ -25,31 +25,34 @@
         }
 
         /* @ngInject */
-        function Deposit(depositService, $state) {
+        function Deposit(depositService, $state, $ionicHistory) {
             /* jshint validthis: true */
             var vm = this;
 
             vm.activate = activate;
-            vm.title = 'Make Deposit';
             vm.singleDeposit = singleDeposit;
             vm.multipleDeposit = multipleDeposit;
+            vm.cancelDeposit = depositService.cancelDeposit;
+            vm.title = 'Make Deposit';
 
             activate();
 
             ////////////////
 
             function activate() {
+
             }
 
             function singleDeposit(){
-                depositService.singleDeposit = true;
-                console.log(depositService.singleDeposit);
+                depositService.type = 'SINGLE';
+                console.log(depositService.type);
                 $state.go('app.capture-check');
             }
 
             function multipleDeposit(){
-                depositService.singleDeposit = false;
-                console.log(depositService.singleDeposit);
+                depositService.type = 'MULTIPLE';
+                console.log(depositService.type);
+                $ionicHistory.clearCache();
                 $state.go('app.capture-check');
             }
         }

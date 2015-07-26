@@ -30,8 +30,9 @@
 
         vm.activate = activate;
         vm.title = 'KTT mRDC';
-        vm.depositLink = 'Deposit';
-        vm.historyLink = 'History';
+        vm.depositLink = 'DEPOSIT';
+        vm.historyLink = 'HISTORY';
+        vm.logoutLink = 'LOGOUT';
 
         activate();
 
@@ -40,6 +41,7 @@
         function activate() {
 
         }
+
     }
 
 })();
