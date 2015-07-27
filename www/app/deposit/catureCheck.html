@@ -3,54 +3,86 @@
         <button class="button button-icon button-clear ion-ios-close-empty" ng-click="vm.cancelDeposit()"></button>
     </ion-nav-buttons>
     <ion-content>
-        <div class="list">
-            <!-- Account Select -->
-            <label class="item item-input item-select">
-                <div class="input-label">
-                    Select Account
-                </div>
-                <select ng-model="vm.selectedAccount" ng-change="vm.accountChange()">
-                    <option ng-repeat="account in vm.accounts">{{account.accountNumber}}</option>
-                </select>
-            </label>
-            <!-- Deposit Amount -->
-            <label class="item item-input">
-                <span class="input-label">Deposit Amount:</span>
-                <input class="deposit-amount-input" type="text" ng-model="vm.amount" ng-currency>
-            </label>
-            <!-- Check Amount -->
-            <label class="item item-input">
-                <span class="input-label">Check Amount:</span>
-                <input class="deposit-amount-input" type="text" ng-model="vm.checkAmount" ng-currency>
-            </label>
-            <!-- Scan Check Front Button -->
-            <div class="card" ng-click="vm.miSnapCheckFront()">
-                <div class="item item-text-wrap">
-                    <div class="item item-icon-right">
-                        <h2 ng-hide="vm.checkFrontImage !== '' && vm.checkFrontImage !== undefined">Capture Check Front</h2>
-                        <h2 ng-show="vm.checkFrontImage !== '' && vm.checkFrontImage !== undefined">Rake Check Front</h2>
-                        <img class="capture-check-thumbnail" ng-show="vm.checkFrontImage !== '' && vm.checkFrontImage !== undefined" ng-src="{{vm.checkFrontImage}}">
-                        <i class="icon ion-camera" ng-hide="vm.checkFrontImage !== '' && vm.checkFrontImage !== undefined"></i>
-                        <i class="icon ion-arrow-return-left" ng-show="vm.checkFrontImage !== '' && vm.checkFrontImage !== undefined"></i>
+        <form name="captureCheckForm" ng-submit="vm.submitCheck(captureCheckForm)">
+            <!-- ERRORS -->
+            <div ng-messages="captureCheckForm.account.$error" role="alert">
+                <div class="instruction-toast" ng-message="required">Select Your Account</div>
+            </div>
+
+            <div ng-show="captureCheckForm.account.$valid" ng-messages="captureCheckForm.depositAmount.$error" role="alert">
+                <div class="instruction-toast" ng-message="required">Enter Deposit Amount</div>
+            </div>
+
+            <div ng-show="captureCheckForm.account.$valid && captureCheckForm.depositAmount.$valid" ng-messages="captureCheckForm.checkAmount.$error" role="alert">
+                <div class="instruction-toast" ng-message="required">Enter Check Amount</div>
+            </div>
+
+            <div ng-show="captureCheckForm.account.$valid && captureCheckForm.depositAmount.$valid && captureCheckForm.checkAmount.$valid && vm.checkFrontImage === undefined">
+                <div class="instruction-toast">Capture Check Front</div>
+            </div>
+
+            <div ng-show="captureCheckForm.account.$valid && captureCheckForm.depositAmount.$valid  && captureCheckForm.checkAmount.$valid && vm.checkFrontImage !== undefined && vm.checkBackImage === undefined">
+                <div class="instruction-toast">Capture Check Back</div>
+            </div>
+
+
+
+            <!-- End ERRORS -->
+
+            <div class="list">
+                <!-- Account Select -->
+                <label class="item item-input item-select">
+                    <div class="input-label">
+                        Select Account
+                    </div>
+                    <select name="account" required ng-model="vm.selectedAccount" ng-change="vm.accountChange()">
+                        <option ng-repeat="account in vm.accounts">{{account.accountNumber}}</option>
+                    </select>
+                </label>
+
+                <!-- Deposit Amount -->
+                <label class="item item-input">
+                    <span class="input-label">Deposit Amount:</span>
+                    <input name="depositAmount" class="deposit-amount-input" type="text" ng-model="vm.amount" required ng-currency>
+                </label>
+
+                <!-- Check Amount -->
+                <label class="item item-input">
+                    <span class="input-label">Check Amount:</span>
+                    <input name="checkAmount" class="deposit-amount-input" type="text" ng-model="vm.checkAmount" required ng-currency>
+                </label>
+
+                <!-- Scan Check Front Button -->
+                <div class="card" ng-click="vm.miSnapCheckFront()">
+                    <div class="item item-text-wrap">
+                        <div class="item item-icon-right">
+                            <h2 ng-hide="vm.checkFrontImage !== '' && vm.checkFrontImage !== undefined">Capture Check Front</h2>
+                            <h2 ng-show="vm.checkFrontImage !== '' && vm.checkFrontImage !== undefined">Rake Check Front</h2>
+                            <img class="capture-check-thumbnail" ng-show="vm.checkFrontImage !== '' && vm.checkFrontImage !== undefined" ng-src="{{vm.checkFrontImage}}">
+                            <i class="icon ion-camera" ng-hide="vm.checkFrontImage !== '' && vm.checkFrontImage !== undefined"></i>
+                            <i class="icon ion-arrow-return-left" ng-show="vm.checkFrontImage !== '' && vm.checkFrontImage !== undefined"></i>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <!-- Scan Check Back Button -->
-            <div class="card" ng-click="vm.miSnapCheckBack()">
-                <div class="item item-text-wrap">
-                    <div class="item item-icon-right">
-                        <h2 ng-hide="vm.checkBackImage !== '' && vm.checkBackImage !== undefined">Capture Check Back</h2>
-                        <h2 ng-show="vm.checkBackImage !== '' && vm.checkBackImage !== undefined">Rake Check Back</h2>
-                        <img class="capture-check-thumbnail" ng-show="vm.checkBackImage !== '' && vm.checkBackImage !== undefined" ng-src="{{vm.checkBackImage}}">
-                        <i class="icon ion-camera" ng-hide="vm.checkBackImage !== '' && vm.checkBackImage !== undefined"></i>
-                        <i class="icon ion-arrow-return-left" ng-show="vm.checkBackImage !== '' && vm.checkBackImage !== undefined"></i>
+
+                <!-- Scan Check Back Button -->
+                <div class="card" ng-click="vm.miSnapCheckBack()">
+                    <div class="item item-text-wrap">
+                        <div class="item item-icon-right">
+                            <h2 ng-hide="vm.checkBackImage !== '' && vm.checkBackImage !== undefined">Capture Check Back</h2>
+                            <h2 ng-show="vm.checkBackImage !== '' && vm.checkBackImage !== undefined">Rake Check Back</h2>
+                            <img class="capture-check-thumbnail" ng-show="vm.checkBackImage !== '' && vm.checkBackImage !== undefined" ng-src="{{vm.checkBackImage}}">
+                            <i class="icon ion-camera" ng-hide="vm.checkBackImage !== '' && vm.checkBackImage !== undefined"></i>
+                            <i class="icon ion-arrow-return-left" ng-show="vm.checkBackImage !== '' && vm.checkBackImage !== undefined"></i>
+                        </div>
                     </div>
                 </div>
+
+                <!-- Submit Check Button -->
+                <button type="submit" ng-disabled="captureCheckForm.$invalid || vm.checkFrontImage === undefined || vm.checkBackImage === undefined" class="button button-full button-positive">
+                    Submit Check
+                </button>
             </div>
-            <!-- Submit Check Button -->
-            <button ng-show="vm.checkBackImage !== '' && vm.checkBackImage !== undefined && vm.checkFrontImage !== '' && vm.checkFrontImage !== undefined" class="button button-full button-positive" ng-click="vm.submitCheck()">
-                Submit Check
-            </button>
-        </div>
+        </form>
     </ion-content>
 </ion-view>

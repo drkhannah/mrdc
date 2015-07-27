@@ -73,15 +73,21 @@
             console.log ('depositService Object: ' + angular.toJson(depositService));
         }
 
-        function submitCheck() {
-            depositService.checks.push({ "checkFrontImage": vm.checkFrontImage, "checkBackImage": vm.checkBackImage, "amount": vm.checkAmount });
-            depositService.amount = vm.amount;
-            depositService.checkAmount = vm.checkAmount;
-            depositService.checkFrontImage = undefined;
-            depositService.checkBackImage = undefined;
-            $ionicHistory.clearCache();
-            $state.go('app.deposit-review');
-            console.log ('depositService Object: ' + angular.toJson(depositService));
+        function submitCheck(captureCheckForm) {
+            if(captureCheckForm.$valid) {
+                depositService.checks.push({
+                    "checkFrontImage": vm.checkFrontImage,
+                    "checkBackImage": vm.checkBackImage,
+                    "amount": vm.checkAmount
+                });
+                depositService.amount = vm.amount;
+                depositService.checkAmount = vm.checkAmount;
+                depositService.checkFrontImage = undefined;
+                depositService.checkBackImage = undefined;
+                $ionicHistory.clearCache();
+                $state.go('app.deposit-review');
+                console.log('depositService Object: ' + angular.toJson(depositService));
+            }
         }
     }
 
