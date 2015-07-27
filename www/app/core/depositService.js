@@ -49,6 +49,7 @@
             service.type = undefined;
             service.amount = undefined;
             service.checkAmount = undefined;
+            service.checksTotalAmount = undefined;
             service.checkFrontImage = undefined;
             service.checkBackImage = undefined;
             service.checks = [];

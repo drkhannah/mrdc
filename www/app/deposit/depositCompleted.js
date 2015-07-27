@@ -57,6 +57,7 @@
             depositService.checkBackImage = undefined;
             depositService.checks = [];
             depositService.checksTotal = undefined;
+            depositService.checksTotalAmount = undefined;
             $ionicHistory.clearCache();
             $state.go('app.deposit');
             console.log ('depositService Object: ' + angular.toJson(depositService));

@@ -19,7 +19,7 @@
                 <input class="deposit-amount-input" type="text" ng-model="vm.amount" ng-currency>
             </label>
             <!-- Checks Total Amount -->
-            <label class="item item-input">
+            <label ng-show="vm.depositType === 'MULTIPLE'" class="item item-input">
                 <span class="input-label">Checks Total Amount:</span>
                 <input  class="checks-total-amount-input" type="text" ng-model="vm.checksTotalAmount" ng-currency>
             </label>
