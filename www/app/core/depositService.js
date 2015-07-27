@@ -15,6 +15,7 @@
             type: undefined,
             account: undefined,
             amount: undefined,
+            checkAmount: undefined,
             checkFrontImage: undefined,
             checkBackImage: undefined,
             checks: [],
@@ -46,6 +47,7 @@
             service.account = undefined;
             service.type = undefined;
             service.amount = undefined;
+            service.checkAmount = undefined;
             service.checkFrontImage = undefined;
             service.checkBackImage = undefined;
             service.checks = [];

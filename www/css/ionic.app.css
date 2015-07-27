@@ -7711,3 +7711,6 @@ img.check-thumbnail-deposit-review {
 
 img.capture-check-thumbnail {
   height: 100px; }
+
+.pane, .view {
+  background-color: #F8F8F8; }

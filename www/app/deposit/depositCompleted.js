@@ -52,6 +52,7 @@
             depositService.account = undefined;
             depositService.type = undefined;
             depositService.amount = undefined;
+            depositService.checkAmount = undefined;
             depositService.checkFrontImage = undefined;
             depositService.checkBackImage = undefined;
             depositService.checks = [];

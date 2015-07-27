@@ -43,6 +43,7 @@
         vm.cancelDeposit = depositService.cancelDeposit;
         vm.title = 'Capture Check';
         vm.amount = depositService.amount;
+        vm.checkAmount = undefined;
         vm.accounts = accountsPromise;
         vm.selectedAccount = depositService.account;
         vm.checkFrontImage = depositService.checkFrontImage;
@@ -73,8 +74,9 @@
         }
 
         function submitCheck() {
-            depositService.checks.push({ "checkFrontImage": vm.checkFrontImage, "checkBackImage": vm.checkBackImage, "amount": vm.amount });
+            depositService.checks.push({ "checkFrontImage": vm.checkFrontImage, "checkBackImage": vm.checkBackImage, "amount": vm.checkAmount });
             depositService.amount = vm.amount;
+            depositService.checkAmount = vm.checkAmount;
             depositService.checkFrontImage = undefined;
             depositService.checkBackImage = undefined;
             $ionicHistory.clearCache();
