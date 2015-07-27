@@ -15,6 +15,7 @@
             type: undefined,
             account: undefined,
             amount: undefined,
+            checksTotalAmount: undefined,
             checkAmount: undefined,
             checkFrontImage: undefined,
             checkBackImage: undefined,

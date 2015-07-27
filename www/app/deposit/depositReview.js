@@ -41,6 +41,8 @@
         vm.completeDeposit = completeDeposit;
         vm.deleteCheck = deleteCheck;
         vm.retake = retake;
+        vm.getTotal = getTotal;
+        vm.depositAmountChange = depositAmountChange;
         vm.cancelDeposit = depositService.cancelDeposit;
         vm.title = 'Deposit Review';
         vm.depositType = depositService.type;
@@ -48,13 +50,24 @@
         vm.accounts = accountsPromise;
         vm.selectedAccount = depositService.account;
         vm.checks = depositService.checks;
+        vm.checksTotalAmount = depositService.checksTotalAmount;
 
         activate();
 
         ////////////////
 
         function activate() {
+            vm.getTotal()
+        }
 
+        function getTotal(){
+            var total = 0;
+            for(var i = 0; i < vm.checks.length; i++){
+                var check = vm.checks[i];
+                total += check.amount;
+            }
+            console.log('checks Total: ' + total);
+            vm.checksTotalAmount = total;
         }
 
         function accountChange() {
@@ -63,6 +76,7 @@
 
         function deleteCheck(index) {
             depositService.checks.splice(index, 1);
+            vm.getTotal()
             console.log ('depositService Object: ' + angular.toJson(depositService));
         }
 
@@ -77,6 +91,10 @@
             $ionicHistory.clearCache();
             $state.go('app.capture-check');
             console.log ('depositService Object: ' + angular.toJson(depositService));
+        }
+
+        function depositAmountChange() {
+            vm.getTotal()
         }
 
         function completeDeposit() {
