@@ -76,7 +76,7 @@
 
         function deleteCheck(index) {
             depositService.checks.splice(index, 1);
-            vm.getTotal()
+            vm.getTotal();
             console.log ('depositService Object: ' + angular.toJson(depositService));
         }
 
