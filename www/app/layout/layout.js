@@ -7,7 +7,7 @@
         .controller('Layout', Layout);
 
     stateProvider.$inject = ['$stateProvider', '$urlRouterProvider'];
-    Layout.$inject = [];
+    Layout.$inject = ['$state'];
 
     /* @ngInject */
     function stateProvider($stateProvider, $urlRouterProvider) {
@@ -20,11 +20,11 @@
             });
 
         // if none of the above states are matched, use this as the fallback
-        $urlRouterProvider.otherwise('/app/deposit');
+        $urlRouterProvider.otherwise('/app/signin');
     }
 
     /* @ngInject */
-    function Layout() {
+    function Layout($state) {
         /* jshint validthis: true */
         var vm = this;
 
@@ -39,7 +39,7 @@
         ////////////////
 
         function activate() {
-
+            console.log($state.current)
         }
 
     }

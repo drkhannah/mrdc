@@ -63,6 +63,7 @@
         }
 
         function miSnapCheckFront(){
+            MiSnapPlugin.captureCheckFront();
             depositService.checkFrontImage = accountsPromise[0].checkFrontImage;
             vm.checkFrontImage = depositService.checkFrontImage;
             console.log ('depositService Object: ' + angular.toJson(depositService));
