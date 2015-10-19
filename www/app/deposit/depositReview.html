@@ -1,45 +1,58 @@
-<ion-view hide-back-button="true" view-title="{{vm.title}}">
+<ion-view hide-back-button="true"  can-swipe-back="false" view-title="{{vm.title}}">
     <ion-nav-buttons side="left">
-        <button class="button button-icon button-clear ion-ios-close-empty" ng-click="vm.cancelDeposit()"></button>
+        <button class="button button-icon button-clear ion-ios-close-empty" data-ng-click="vm.cancelDeposit()"></button>
     </ion-nav-buttons>
     <ion-content>
+
+        <!--ERRORS -->
+        <div data-ng-show="vm.amount !== vm.checksTotalAmount">
+            <div class="instruction-toast">Totals Mismatch</div>
+        </div>
+
         <div class="list">
             <!-- Account Select -->
             <label class="item item-input item-select">
-                <div class="input-label">
-                    Select Account
-                </div>
-                <select ng-model="vm.selectedAccount" ng-change="vm.accountChange()">
+                <span class="input-label">Account</span>
+                <select name="account" data-ng-model="vm.selectedAccount" data-ng-change="vm.accountChange()">
                     <option ng-repeat="account in vm.accounts">{{account.accountNumber}}</option>
                 </select>
             </label>
             <!-- Deposit Amount -->
             <label class="item item-input">
-                <span class="input-label">Deposit Amount:</span>
-                <input class="deposit-amount-input" type="text" ng-model="vm.amount" ng-currency>
+                <span class="input-label">Deposit:</span>
+                <input data-ng-currency type="text" data-ng-required="true" data-ng-model="vm.amount" placeholder="Deposit Amount" data-ng-change="vm.depositAmountChange()" >
             </label>
             <!-- Checks Total Amount -->
-            <label ng-show="vm.depositType === 'MULTIPLE'" class="item item-input">
-                <span class="input-label">Checks Total Amount:</span>
-                <input  class="checks-total-amount-input" type="text" ng-model="vm.checksTotalAmount" ng-currency>
+            <label data-ng-show="vm.type === 'MULTIPLE'" class="item item-input">
+                <span class="input-label">Checks:</span>
+                <input data-ng-currency type="text" readonly data-ng-model="vm.checksTotalAmount" placeholder="Checks List Total">
             </label>
             <!-- Submitted Checks List -->
+            <div class="item item-divider" data-ng-show="vm.type === 'SINGLE'">
+                Submitted Check
+            </div>
+            <div class="item item-divider" data-ng-show="vm.type === 'MULTIPLE'">
+                Saved Checks
+            </div>
             <ion-list>
-                <ion-item class="item item-thumbnail-right" ng-repeat="check in vm.checks">
+                <ion-item class="item item-thumbnail-right" data-ng-repeat="check in vm.checks">
                     <h4>{{check.amount}}</h4>
-                    <ion-option-button class="button-positive" ng-click="vm.deleteCheck()">Delete</ion-option-button>
-                    <ion-option-button class="button-assertive" ng-click="vm.retake()">Retake</ion-option-button>
-                    <img class="check-thumbnail-deposit-review" ng-src="{{check.checkFrontImage}}">
+                    <ion-option-button class="button-positive" data-ng-click="vm.deleteCheck($index)">Delete</ion-option-button>
+                    <ion-option-button class="button-assertive" data-ng-click="vm.retake($index)">Retake</ion-option-button>
+                    <img class="check-thumbnail-deposit-review" data-ng-src="{{check.checkFrontImage}}">
                 </ion-item>
             </ion-list>
-            <!-- Add Check Button -->
-            <button ng-show="vm.depositType === 'MULTIPLE'" class="button button-full button-positive" ng-click="vm.addCheck()">
-                Add Check
-            </button>
-            <!-- Complete Deposit Button -->
-            <button class="button button-full button-positive" ng-click="vm.completeDeposit()">
-                Complete Deposit
-            </button>
         </div>
     </ion-content>
+    <!-- Footer -->
+    <div class="bar bar-footer bar-stable">
+        <!-- Add Check Button -->
+        <button class="button button-clear button-positive" data-ng-show="vm.type === 'MULTIPLE'" data-ng-click="vm.addCheck()">
+            Add Check
+        </button>
+        <!-- Complete Deposit Button -->
+        <button class="button button-clear button-positive pull-right" data-ng-disabled="vm.amount !== vm.checksTotalAmount" data-ng-click="vm.completeDeposit()">
+            Complete Deposit
+        </button>
+    </div>
 </ion-view>

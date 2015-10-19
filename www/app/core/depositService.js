@@ -5,10 +5,10 @@
         .module('app.core')
         .factory('depositService', depositService);
 
-    depositService.$inject = ['$http', '$q', '$ionicHistory', '$state'];
+    depositService.$inject = ['$http', '$q', '$ionicHistory', '$state', '$ionicPopup'];
 
     /* @ngInject */
-    function depositService($http, $q, $ionicHistory, $state) {
+    function depositService($http, $q, $ionicHistory, $state, $ionicPopup) {
         var service = {
             loadAccounts: loadAccounts,
             cancelDeposit: cancelDeposit,
@@ -19,8 +19,7 @@
             checkAmount: undefined,
             checkFrontImage: undefined,
             checkBackImage: undefined,
-            checks: [],
-            checksTotal: undefined
+            checks: []
         };
 
         return service;
@@ -45,19 +44,43 @@
                 disableBack: true
             });
 
-            service.account = undefined;
-            service.type = undefined;
-            service.amount = undefined;
-            service.checkAmount = undefined;
-            service.checksTotalAmount = undefined;
-            service.checkFrontImage = undefined;
-            service.checkBackImage = undefined;
-            service.checks = [];
-            service.checksTotal = undefined;
-            $ionicHistory.clearCache();
-            $state.go('app.deposit');
+            $ionicPopup.show({
+                title: "Cancel Deposit",
+                template: "Are you sure you want to completely cancel this deposit?",
+                buttons: [{
+                    text: 'No',
+                    type: 'button-stable',
+                    onTap: function(e) {
+                        // e.preventDefault() will stop the popup from closing when tapped.
+                        //e.preventDefault();
+                        return false;
+                    }
+                }, {
+                    text: 'YES',
+                    type: 'button-positive',
+                    onTap: function(e) {
+                        // Returning a value will cause the promise to resolve with the given value.
+                        return true;
+                    }
+                }]
+            }).then(function(res) {
+                if(res) {
+                    service.account = undefined;
+                    service.type = undefined;
+                    service.amount = undefined;
+                    service.checkAmount = undefined;
+                    service.checksTotalAmount = undefined;
+                    service.checkFrontImage = undefined;
+                    service.checkBackImage = undefined;
+                    service.checks = [];
+                    $ionicHistory.clearCache();
+                    $state.go('app.deposit');
 
-            console.log ('depositService Object: ' + angular.toJson(service))
+                    console.log ('depositService Object: ' + angular.toJson(service));
+                } else {
+                    console.log("Still doing deposit");
+                }
+            });
         }
 
     }

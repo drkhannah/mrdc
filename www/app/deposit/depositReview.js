@@ -4,10 +4,10 @@
     angular
         .module('app.deposit')
         .config(stateProvider)
-        .controller('DepositReview', DepositReview);
+        .controller('DepositReviewController', DepositReviewController);
 
     stateProvider.$inject = ['$stateProvider'];
-    DepositReview.$inject = ['accountsPromise', 'depositService', '$state', '$ionicHistory'];
+    DepositReviewController.$inject = ['accountsPromise', 'depositService', '$state', '$ionicHistory'];
 
     /* @ngInject */
     function stateProvider($stateProvider){
@@ -17,7 +17,7 @@
                 views: {
                     'menuContent': {
                         templateUrl: 'app/deposit/depositReview.html',
-                        controller: 'DepositReview as vm',
+                        controller: 'DepositReviewController as vm',
                         resolve: {
                             accountsPromise: function(depositService){
                                 return depositService.loadAccounts();
@@ -30,7 +30,7 @@
     }
 
     /* @ngInject */
-    function DepositReview(accountsPromise, depositService, $state, $ionicHistory) {
+    function DepositReviewController(accountsPromise, depositService, $state, $ionicHistory) {
         /* jshint validthis: true */
         var vm = this;
 
@@ -41,11 +41,11 @@
         vm.completeDeposit = completeDeposit;
         vm.deleteCheck = deleteCheck;
         vm.retake = retake;
-        vm.getTotal = getTotal;
+        vm.getChecksTotal = getChecksTotal;
         vm.depositAmountChange = depositAmountChange;
         vm.cancelDeposit = depositService.cancelDeposit;
         vm.title = 'Deposit Review';
-        vm.depositType = depositService.type;
+        vm.type = depositService.type;
         vm.amount = depositService.amount;
         vm.accounts = accountsPromise;
         vm.selectedAccount = depositService.account;
@@ -57,10 +57,11 @@
         ////////////////
 
         function activate() {
-            vm.getTotal()
+            vm.getChecksTotal()
         }
 
-        function getTotal(){
+        // calculate the amounts of checks in checks list and total them
+        function getChecksTotal(){
             var total = 0;
             for(var i = 0; i < vm.checks.length; i++){
                 var check = vm.checks[i];
@@ -72,31 +73,41 @@
 
         function accountChange() {
             depositService.account = vm.selectedAccount;
+            console.log('depositService Object: ' + angular.toJson(depositService));
+
         }
 
+        function depositAmountChange() {
+            vm.getChecksTotal();
+            depositService.amount = vm.amount;
+            console.log('depositService Object: ' + angular.toJson(depositService));
+
+        }
+
+        //Delete check from checks list, then retotal checks amount total
         function deleteCheck(index) {
             depositService.checks.splice(index, 1);
-            vm.getTotal();
+            vm.getChecksTotal();
             console.log ('depositService Object: ' + angular.toJson(depositService));
         }
 
+        //retake image, deletes image from checks list, changes state to app.check-capture
         function retake(index) {
-            depositService.checks.splice(index, 1);
             $ionicHistory.clearCache();
             $state.go('app.capture-check');
+            depositService.checks.splice(index, 1);
+            vm.getChecksTotal();
             console.log ('depositService Object: ' + angular.toJson(depositService));
         }
 
+        //changes state to app.check-capture
         function addCheck() {
             $ionicHistory.clearCache();
             $state.go('app.capture-check');
             console.log ('depositService Object: ' + angular.toJson(depositService));
         }
 
-        function depositAmountChange() {
-            vm.getTotal()
-        }
-
+        // completes deposit
         function completeDeposit() {
             $ionicHistory.clearCache();
             $state.go('app.deposit-completed');

@@ -4,10 +4,10 @@
     angular
         .module('app.deposit')
         .config(stateProvider)
-        .controller('DepositCompleted', DepositCompleted);
+        .controller('DepositCompletedController', DepositCompletedController);
 
     stateProvider.$inject = ['$stateProvider'];
-    DepositCompleted.$inject = ['depositService', '$state', '$ionicHistory'];
+    DepositCompletedController.$inject = ['depositService', '$state', '$ionicHistory'];
 
     /* @ngInject */
     function stateProvider($stateProvider){
@@ -17,14 +17,14 @@
                 views: {
                     'menuContent': {
                         templateUrl: 'app/deposit/depositCompleted.html',
-                        controller: 'DepositCompleted as vm'
+                        controller: 'DepositCompletedController as vm'
                     }
                 }
             })
     }
 
     /* @ngInject */
-    function DepositCompleted(depositService, $state, $ionicHistory) {
+    function DepositCompletedController(depositService, $state, $ionicHistory) {
         /* jshint validthis: true */
         var vm = this;
 
@@ -40,15 +40,16 @@
 
         function activate() {
 
-
         }
 
+        //changes state to app.deposit, clears data out of depositService
         function anotherDeposit() {
 
             $ionicHistory.nextViewOptions({
                 disableBack: true
             });
-
+            $ionicHistory.clearCache();
+            $state.go('app.deposit');
             depositService.account = undefined;
             depositService.type = undefined;
             depositService.amount = undefined;
@@ -56,10 +57,8 @@
             depositService.checkFrontImage = undefined;
             depositService.checkBackImage = undefined;
             depositService.checks = [];
-            depositService.checksTotal = undefined;
             depositService.checksTotalAmount = undefined;
-            $ionicHistory.clearCache();
-            $state.go('app.deposit');
+
             console.log ('depositService Object: ' + angular.toJson(depositService));
         }
 

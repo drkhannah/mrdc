@@ -4,10 +4,10 @@
     angular
         .module('app.history')
         .config(stateProvider)
-        .controller('History', History);
+        .controller('HistoryController', HistoryController);
 
     stateProvider.$inject = ['$stateProvider'];
-    History.$inject = ['historyPromise'];
+    HistoryController.$inject = ['historyPromise'];
 
     /* @ngInject */
     function stateProvider($stateProvider){
@@ -17,7 +17,7 @@
                 views: {
                     'menuContent': {
                         templateUrl: 'app/history/history.html',
-                        controller: 'History as vm',
+                        controller: 'HistoryController as vm',
                         resolve: {
                             historyPromise: function(historyService){
                                 return historyService.loadHistory();
@@ -29,7 +29,7 @@
     }
 
     /* @ngInject */
-    function History(historyPromise) {
+    function HistoryController(historyPromise) {
         /* jshint validthis: true */
         var vm = this;
 

@@ -4,10 +4,10 @@
     angular
         .module('app.history')
         .config(stateProvider)
-        .controller('HistoryDetail', HistoryDetail);
+        .controller('HistoryDetailController', HistoryDetailController);
 
     stateProvider.$inject = ['$stateProvider'];
-    HistoryDetail.$inject = ['historyDetailPromise', '$ionicModal', '$scope'];
+    HistoryDetailController.$inject = ['historyDetailPromise', '$ionicModal', '$scope'];
 
     /* @ngInject */
     function stateProvider($stateProvider){
@@ -17,7 +17,7 @@
                 views: {
                     'menuContent': {
                         templateUrl: 'app/history/depositDetail.html',
-                        controller: 'HistoryDetail as vm',
+                        controller: 'HistoryDetailController as vm',
                         resolve: {
                             historyDetailPromise: function(historyService, $stateParams){
                                 return historyService.historyDetail($stateParams.id)
@@ -29,21 +29,21 @@
     }
 
     /* @ngInject */
-    function HistoryDetail(historyDetailPromise, $ionicModal, $scope) {
+    function HistoryDetailController(historyDetailPromise, $ionicModal, $scope) {
         /* jshint validthis: true */
         var vm = this;
 
         vm.activate = activate;
+        vm.closeImages = closeImages;
+        vm.showImages = showImages;
         vm.title = 'HistoryDetail';
         vm.id = historyDetailPromise.deposit.id;
         vm.account = historyDetailPromise.deposit.account;
         vm.depositAmount = historyDetailPromise.deposit.amount;
         vm.checks = historyDetailPromise.checks;
-
-        //check images modal
-        vm.closeImages = closeImages;
-        vm.showImages = showImages;
         vm.checkIndex = null;
+
+
 
         activate();
 

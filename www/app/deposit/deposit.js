@@ -4,10 +4,10 @@
     angular
         .module('app.deposit')
         .config(stateProvider)
-        .controller('Deposit', Deposit);
+        .controller('DepositController', DepositController);
 
         stateProvider.$inject = ['$stateProvider'];
-        Deposit.$inject = ['depositService', '$state', '$ionicHistory'];
+    DepositController.$inject = ['depositService', '$state', '$ionicHistory'];
 
         /* @ngInject */
         function stateProvider($stateProvider){
@@ -17,7 +17,7 @@
                     views: {
                         'menuContent': {
                             templateUrl: 'app/deposit/deposit.html',
-                            controller: 'Deposit as vm'
+                            controller: 'DepositController as vm'
 
                         }
                     }
@@ -25,7 +25,7 @@
         }
 
         /* @ngInject */
-        function Deposit(depositService, $state, $ionicHistory) {
+        function DepositController(depositService, $state, $ionicHistory) {
             /* jshint validthis: true */
             var vm = this;
 
@@ -43,17 +43,25 @@
 
             }
 
+
+            //initiate Single Check Deposit
             function singleDeposit(){
+
                 depositService.type = 'SINGLE';
                 console.log(depositService.type);
+                $ionicHistory.clearCache();
                 $state.go('app.capture-check');
+
             }
 
+            //initiate Multiple Check Deposit
             function multipleDeposit(){
+
                 depositService.type = 'MULTIPLE';
                 console.log(depositService.type);
                 $ionicHistory.clearCache();
                 $state.go('app.capture-check');
+
             }
         }
 
