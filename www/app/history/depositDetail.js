@@ -7,7 +7,7 @@
         .controller('HistoryDetailController', HistoryDetailController);
 
     stateProvider.$inject = ['$stateProvider'];
-    HistoryDetailController.$inject = ['historyDetailPromise', '$ionicModal', '$scope'];
+    HistoryDetailController.$inject = ['historyDetailPromise', '$ionicModal', '$scope', 'depositService', '$state'];
 
     /* @ngInject */
     function stateProvider($stateProvider){
@@ -29,17 +29,21 @@
     }
 
     /* @ngInject */
-    function HistoryDetailController(historyDetailPromise, $ionicModal, $scope) {
+    function HistoryDetailController(historyDetailPromise, $ionicModal, $scope, depositService, $state) {
         /* jshint validthis: true */
         var vm = this;
 
         vm.activate = activate;
         vm.closeImages = closeImages;
         vm.showImages = showImages;
+        vm.resubmitDeposit = resubmitDeposit;
         vm.title = 'HistoryDetail';
-        vm.id = historyDetailPromise.deposit.id;
-        vm.account = historyDetailPromise.deposit.account;
-        vm.depositAmount = historyDetailPromise.deposit.amount;
+        vm.deposit = historyDetailPromise;
+        vm.id = historyDetailPromise.id;
+        vm.account = historyDetailPromise.account;
+        vm.depositAmount = historyDetailPromise.amount;
+        vm.status = historyDetailPromise.status;
+        vm.description = historyDetailPromise.description;
         vm.checks = historyDetailPromise.checks;
         vm.checkIndex = null;
 
@@ -69,6 +73,17 @@
             vm.checkIndex = index;
             vm.modal.show();
             screen.lockOrientation('landscape');
+        }
+
+        //Enter the process of resubmiting a deposit
+        function resubmitDeposit(deposit) {
+            //send deposit to service
+            $state.go('app.deposit-review');
+            depositService.depositToEdit = {};
+            depositService.depositToEdit = deposit;
+            depositService.mode = 'EDIT';
+            depositService.type = deposit.type;
+            console.log(depositService)
         }
 
     }

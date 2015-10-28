@@ -50,14 +50,14 @@
             });
             $ionicHistory.clearCache();
             $state.go('app.deposit');
-            depositService.account = undefined;
-            depositService.type = undefined;
-            depositService.amount = undefined;
-            depositService.checkAmount = undefined;
-            depositService.checkFrontImage = undefined;
-            depositService.checkBackImage = undefined;
+            depositService.account = null;
+            depositService.type = null;
+            depositService.amount = null;
+            depositService.checkAmount = null;
+            depositService.checkFrontImage = null;
+            depositService.checkBackImage = null;
             depositService.checks = [];
-            depositService.checksTotalAmount = undefined;
+            depositService.checksTotalAmount = null;
 
             console.log ('depositService Object: ' + angular.toJson(depositService));
         }

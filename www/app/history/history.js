@@ -36,7 +36,6 @@
         vm.activate = activate;
         vm.title = 'History';
         vm.history = historyPromise.deposits;
-
         activate();
 
         ////////////////

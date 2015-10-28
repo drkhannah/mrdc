@@ -48,7 +48,9 @@
             function singleDeposit(){
 
                 depositService.type = 'SINGLE';
-                console.log(depositService.type);
+                depositService.mode = 'CREATE';
+                console.log('Deposit Type: ' + depositService.type);
+                console.log('Deposit Mode: ' + depositService.mode);
                 $ionicHistory.clearCache();
                 $state.go('app.capture-check');
 
@@ -58,7 +60,9 @@
             function multipleDeposit(){
 
                 depositService.type = 'MULTIPLE';
-                console.log(depositService.type);
+                depositService.mode = 'CREATE';
+                console.log('Deposit Type: ' + depositService.type);
+                console.log('Deposit Mode: ' + depositService.mode);
                 $ionicHistory.clearCache();
                 $state.go('app.capture-check');
 

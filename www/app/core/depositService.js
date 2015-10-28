@@ -12,14 +12,16 @@
         var service = {
             loadAccounts: loadAccounts,
             cancelDeposit: cancelDeposit,
-            type: undefined,
-            account: undefined,
-            amount: undefined,
-            checksTotalAmount: undefined,
-            checkAmount: undefined,
-            checkFrontImage: undefined,
-            checkBackImage: undefined,
-            checks: []
+            mode: null,
+            type: null,
+            account: null,
+            amount: null,
+            checksTotalAmount: null,
+            checkAmount: null,
+            checkFrontImage: null,
+            checkBackImage: null,
+            checks: [],
+            depositToEdit: null
         };
 
         return service;
@@ -65,14 +67,16 @@
                 }]
             }).then(function(res) {
                 if(res) {
-                    service.account = undefined;
-                    service.type = undefined;
-                    service.amount = undefined;
-                    service.checkAmount = undefined;
-                    service.checksTotalAmount = undefined;
-                    service.checkFrontImage = undefined;
-                    service.checkBackImage = undefined;
+                    service.account = null;
+                    service.type = null;
+                    service.amount = null;
+                    service.checkAmount = null;
+                    service.checksTotalAmount = null;
+                    service.checkFrontImage = null;
+                    service.checkBackImage = null;
                     service.checks = [];
+                    service.depositToEdit = null;
+                    service.mode = null;
                     $ionicHistory.clearCache();
                     $state.go('app.deposit');
 

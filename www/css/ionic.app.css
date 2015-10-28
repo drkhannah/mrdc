@@ -9274,6 +9274,10 @@ img.check-image {
   width: 100%;
   height: 100%; }
 
+h4 span.detail-info {
+  font-size: .6em;
+  font-weight: normal; }
+
 input.checks-total-amount-input {
   text-align: right; }
 

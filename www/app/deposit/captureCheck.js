@@ -7,13 +7,14 @@
         .controller('CaptureCheckController', CaptureCheckController);
 
     stateProvider.$inject = ['$stateProvider'];
-    CaptureCheckController.$inject = ['accountsPromise', 'depositService', '$state', '$ionicHistory', '$timeout', '$ionicPopup'];
+    CaptureCheckController.$inject = ['accountsPromise', 'depositService', '$state', '$ionicHistory', '$timeout', '$ionicPopup', '$stateParams'];
 
     /* @ngInject */
     function stateProvider($stateProvider){
         $stateProvider
             .state('app.capture-check', {
-                url: '/deposit/capture-check',
+                cache: false,
+                url: '/deposit/capture-check:id',
                 views: {
                     'menuContent': {
                         templateUrl: 'app/deposit/catureCheck.html',
@@ -30,7 +31,7 @@
     }
 
     /* @ngInject */
-    function CaptureCheckController(accountsPromise, depositService, $state, $ionicHistory, $timeout, $ionicPopup) {
+    function CaptureCheckController(accountsPromise, depositService, $state, $ionicHistory, $timeout, $ionicPopup, $stateParams) {
         /* jshint validthis: true */
         var vm = this;
 
@@ -40,14 +41,16 @@
         vm.miSnapCheckFront = miSnapCheckFront;
         vm.miSnapCheckBack = miSnapCheckBack;
         vm.submitCheck = submitCheck;
-        vm.depositAmountChange = depositAmountChange;
+        //vm.depositAmountChange = depositAmountChange;
         vm.checkAmountChange = checkAmountChange;
         vm.cancelCheck = cancelCheck;
+        vm.editCheckId = $stateParams.id;
         vm.cancelDeposit = depositService.cancelDeposit;
         vm.title = 'Capture Check';
         vm.type = depositService.type;
+        vm.mode = depositService.mode;
         vm.amount = depositService.amount;
-        vm.checkAmount = undefined;
+        vm.checkAmount = depositService.checkAmount;
         vm.accounts = accountsPromise;
         vm.selectedAccount = depositService.account;
         vm.checks = depositService.checks;
@@ -62,30 +65,42 @@
         ////////////////
 
         function activate() {
+            if(vm.mode === 'EDIT'){
+                vm.selectedAccount = depositService.depositToEdit.account;
+            }
 
         }
 
         function accountChange() {
-            depositService.account = vm.selectedAccount;
+            if(vm.mode === 'CREATE') {
+                depositService.account = vm.selectedAccount;
+            } else if(vm.mode === 'EDIT'){
+                depositService.depositToEdit.account = vm.selectedAccount;
+            }
             console.log('depositService Object: ' + angular.toJson(depositService));
-
         }
 
-        function depositAmountChange() {
-            depositService.amount = vm.amount;
-            console.log('depositService Object: ' + angular.toJson(depositService));
-
-        }
+        //function depositAmountChange() {
+        //    if(vm.mode === 'CREATE') {
+        //        depositService.amount = vm.amount;
+        //    } else if(vm.mode === 'EDIT'){
+        //        depositService.depositToEdit.amount = vm.amount;
+        //    }
+        //    console.log('depositService Object: ' + angular.toJson(depositService));
+        //}
 
         function checkAmountChange() {
-            depositService.checkAmount = vm.checkAmount;
+            if(vm.mode === 'CREATE') {
+                depositService.checkAmount = vm.checkAmount;
+            } else if(vm.mode === 'EDIT'){
+                depositService.depositToEdit.checkAmount = vm.checkAmount;
+            }
             console.log('depositService Object: ' + angular.toJson(depositService));
-
         }
 
         function miSnapCheckFront(){
-            vm.frontCheckLoading = true;
-            //if(cordova !== undefined){
+
+            //if(cordova !== null){
             //vm.frontCheckLoading = true;
             //cordova.exec(
             //    // Register the callback handler
@@ -116,7 +131,7 @@
             //    alert('You need to be on a device for this to work')
             //}
 
-
+            vm.frontCheckLoading = true;
             $timeout(function() {
                 vm.frontCheckLoading = false;
                 depositService.checkFrontImage = accountsPromise[0].checkFrontImage;
@@ -127,7 +142,6 @@
 
         function miSnapCheckBack(){
             vm.backCheckLoading = true;
-
             $timeout(function() {
                 vm.backCheckLoading = false;
                 depositService.checkBackImage = accountsPromise[0].checkBackImage;
@@ -137,21 +151,37 @@
         }
 
         function submitCheck() {
-            vm.frontCheckLoading = true
-            depositService.loadAccounts().then(vm.frontCheckLoading = false);
-                $ionicHistory.clearCache();
-                $state.go('app.deposit-review');
+            $ionicHistory.clearCache();
+            $state.go('app.deposit-review');
 
+            if(vm.mode === 'CREATE') {
                 depositService.checks.push({
                     "checkFrontImage": vm.checkFrontImage,
                     "checkBackImage": vm.checkBackImage,
                     "amount": vm.checkAmount
                 });
-                depositService.checkFrontImage = undefined;
-                depositService.checkBackImage = undefined;
-                depositService.checkAmount = undefined;
+            } else if(vm.mode === 'EDIT') {
+                depositService.depositToEdit.checks.forEach(function (check) {
+                    if(check.id === vm.editCheckId){
+                        check.checkFrontImage = vm.checkFrontImage;
+                        check.checkFrontImage = vm.checkFrontImage;
+                        check.checkBackImage = vm.checkBackImage;
+                        check.amount = vm.checkAmount;
+                    }
+                });
 
-                console.log('depositService Object: ' + angular.toJson(depositService));
+
+                depositService.depositToEdit.checks[vm.editCheckId] = {
+                    "checkFrontImage": vm.checkFrontImage,
+                    "checkBackImage": vm.checkBackImage,
+                    "amount": vm.checkAmount
+                }
+            }
+            depositService.checkFrontImage = null;
+            depositService.checkBackImage = null;
+            depositService.checkAmount = null;
+            //depositService.account = null;
+            console.log('depositService Object: ' + angular.toJson(depositService));
         }
 
         function cancelCheck() {
@@ -178,9 +208,9 @@
                 if(res) {
                     $ionicHistory.clearCache();
                     $state.go('app.deposit-review');
-                    depositService.checkAmount = undefined;
-                    depositService.checkFrontImage = undefined;
-                    depositService.checkBackImage = undefined;
+                    depositService.checkAmount = null;
+                    depositService.checkFrontImage = null;
+                    depositService.checkBackImage = null;
                     console.log('depositService Object: ' + angular.toJson(depositService));
                 } else {
                     console.log("Don't Cancel Check Submition");
