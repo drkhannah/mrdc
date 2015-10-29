@@ -14,7 +14,7 @@
         $stateProvider
             .state('app.capture-check', {
                 cache: false,
-                url: '/deposit/capture-check:id',
+                url: '/deposit/capture-check:hashKey',
                 views: {
                     'menuContent': {
                         templateUrl: 'app/deposit/catureCheck.html',
@@ -41,15 +41,13 @@
         vm.miSnapCheckFront = miSnapCheckFront;
         vm.miSnapCheckBack = miSnapCheckBack;
         vm.submitCheck = submitCheck;
-        //vm.depositAmountChange = depositAmountChange;
         vm.checkAmountChange = checkAmountChange;
         vm.cancelCheck = cancelCheck;
-        vm.editCheckId = $stateParams.id;
+        vm.editCheckHashKey = $stateParams.hashKey;
         vm.cancelDeposit = depositService.cancelDeposit;
         vm.title = 'Capture Check';
         vm.type = depositService.type;
         vm.mode = depositService.mode;
-        vm.amount = depositService.amount;
         vm.checkAmount = depositService.checkAmount;
         vm.accounts = accountsPromise;
         vm.selectedAccount = depositService.account;
@@ -65,9 +63,6 @@
         ////////////////
 
         function activate() {
-            if(vm.mode === 'EDIT'){
-                vm.selectedAccount = depositService.depositToEdit.account;
-            }
 
         }
 
@@ -77,17 +72,8 @@
             } else if(vm.mode === 'EDIT'){
                 depositService.depositToEdit.account = vm.selectedAccount;
             }
-            console.log('depositService Object: ' + angular.toJson(depositService));
+            console.log(depositService);
         }
-
-        //function depositAmountChange() {
-        //    if(vm.mode === 'CREATE') {
-        //        depositService.amount = vm.amount;
-        //    } else if(vm.mode === 'EDIT'){
-        //        depositService.depositToEdit.amount = vm.amount;
-        //    }
-        //    console.log('depositService Object: ' + angular.toJson(depositService));
-        //}
 
         function checkAmountChange() {
             if(vm.mode === 'CREATE') {
@@ -95,7 +81,7 @@
             } else if(vm.mode === 'EDIT'){
                 depositService.depositToEdit.checkAmount = vm.checkAmount;
             }
-            console.log('depositService Object: ' + angular.toJson(depositService));
+            console.log(depositService);
         }
 
         function miSnapCheckFront(){
@@ -136,7 +122,7 @@
                 vm.frontCheckLoading = false;
                 depositService.checkFrontImage = accountsPromise[0].checkFrontImage;
                 vm.checkFrontImage = depositService.checkFrontImage;
-                console.log ('depositService Object: ' + angular.toJson(depositService));
+                console.log (depositService);
             }, 3000);
         }
 
@@ -146,7 +132,7 @@
                 vm.backCheckLoading = false;
                 depositService.checkBackImage = accountsPromise[0].checkBackImage;
                 vm.checkBackImage = depositService.checkBackImage;
-                console.log ('depositService Object: ' + angular.toJson(depositService));
+                console.log (depositService);
             }, 3000);
         }
 
@@ -155,33 +141,43 @@
             $state.go('app.deposit-review');
 
             if(vm.mode === 'CREATE') {
-                depositService.checks.push({
-                    "checkFrontImage": vm.checkFrontImage,
-                    "checkBackImage": vm.checkBackImage,
-                    "amount": vm.checkAmount
-                });
+                if(depositService.checks.length >= 1){
+                    depositService.checks.forEach(function (check) {
+                        if(check.$$hashKey === vm.editCheckHashKey){
+                            check.checkFrontImage = vm.checkFrontImage;
+                            check.checkBackImage = vm.checkBackImage;
+                            check.checkAmount = vm.checkAmount;
+                        } else if(vm.editCheckHashKey === undefined || vm.editCheckHashKey === null || vm.editCheckHashKey === "" || vm.editCheckHashKey === ''){
+                            depositService.checks.push({
+                                "checkFrontImage": vm.checkFrontImage,
+                                "checkBackImage": vm.checkBackImage,
+                                "checkAmount": vm.checkAmount
+                            });
+                            vm.editCheckHashKey = 'New check Pushed'
+                        }
+                    });
+                } else {
+                    depositService.checks.push({
+                        "checkFrontImage": vm.checkFrontImage,
+                        "checkBackImage": vm.checkBackImage,
+                        "checkAmount": vm.checkAmount
+                    });
+                }
+
             } else if(vm.mode === 'EDIT') {
                 depositService.depositToEdit.checks.forEach(function (check) {
-                    if(check.id === vm.editCheckId){
-                        check.checkFrontImage = vm.checkFrontImage;
+                    if(check.$$hashKey === vm.editCheckHashKey){
                         check.checkFrontImage = vm.checkFrontImage;
                         check.checkBackImage = vm.checkBackImage;
-                        check.amount = vm.checkAmount;
+                        check.checkAmount = vm.checkAmount;
                     }
                 });
-
-
-                depositService.depositToEdit.checks[vm.editCheckId] = {
-                    "checkFrontImage": vm.checkFrontImage,
-                    "checkBackImage": vm.checkBackImage,
-                    "amount": vm.checkAmount
-                }
             }
             depositService.checkFrontImage = null;
             depositService.checkBackImage = null;
             depositService.checkAmount = null;
             //depositService.account = null;
-            console.log('depositService Object: ' + angular.toJson(depositService));
+            console.log(depositService);
         }
 
         function cancelCheck() {
@@ -193,7 +189,6 @@
                     type: 'button-stable',
                     onTap: function(e) {
                         // e.preventDefault() will stop the popup from closing when tapped.
-                        //e.preventDefault();
                         return false;
                     }
                 }, {
@@ -211,7 +206,7 @@
                     depositService.checkAmount = null;
                     depositService.checkFrontImage = null;
                     depositService.checkBackImage = null;
-                    console.log('depositService Object: ' + angular.toJson(depositService));
+                    console.log(depositService);
                 } else {
                     console.log("Don't Cancel Check Submition");
                 }

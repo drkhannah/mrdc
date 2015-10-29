@@ -15,7 +15,6 @@
             mode: null,
             type: null,
             account: null,
-            amount: null,
             checksTotalAmount: null,
             checkAmount: null,
             checkFrontImage: null,
@@ -69,7 +68,6 @@
                 if(res) {
                     service.account = null;
                     service.type = null;
-                    service.amount = null;
                     service.checkAmount = null;
                     service.checksTotalAmount = null;
                     service.checkFrontImage = null;
