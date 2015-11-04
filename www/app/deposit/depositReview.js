@@ -33,8 +33,9 @@
     /* @ngInject */
     function DepositReviewController(accountsPromise, depositService, $state, $ionicHistory) {
         /* jshint validthis: true */
-        var vm = this;
-
+        var vm = this,
+            checkObj = depositService.checkObj,
+            depositObj = depositService.depositObj;
 
         vm.activate = activate;
         vm.accountChange = accountChange;
@@ -48,11 +49,9 @@
         vm.type = depositService.type;
         vm.mode = depositService.mode;
         vm.accounts = accountsPromise;
-        vm.selectedAccount = depositService.account;
-        vm.checks = depositService.checks;
-        vm.checksTotalAmount = depositService.checksTotalAmount;
-        vm.depositToEdit = depositService.depositToEdit;
-        vm.mode = depositService.mode;
+        vm.selectedAccount = depositObj.account;
+        vm.checksTotalAmount = depositObj.checksTotalAmount;
+        vm.checks = depositObj.checks;
 
         activate();
 
@@ -60,15 +59,10 @@
 
         //function runs when controller is activated
         function activate() {
-            if(vm.mode === 'CREATE') {
-                vm.getChecksTotal();
-                depositService.checksTotalAmount = vm.checksTotalAmount;
-            } else if(vm.mode === 'EDIT') {
-                vm.selectedAccount = depositService.depositToEdit.account;
-                vm.checks = depositService.depositToEdit.checks;
-                vm.getChecksTotal();
-                depositService.depositToEdit.checksTotalAmount = vm.checksTotalAmount;
-            }
+            vm.selectedAccount = depositObj.account;
+            vm.checks = depositObj.checks;
+            vm.getChecksTotal();
+            depositObj.checksTotalAmount = vm.checksTotalAmount;
         }
 
         // calculate the amounts of checks in checks list and total them
@@ -83,26 +77,15 @@
 
         // update depositService.account when selection changes in view
         function accountChange() {
-            if(vm.mode === 'CREATE') {
-                depositService.account = vm.selectedAccount;
-            } else if(vm.mode === 'EDIT') {
-                depositService.depositToEdit.account = vm.selectedAccount;
-            }
+            depositObj.account = vm.selectedAccount;
             console.log(depositService);
-
         }
 
         //Delete check from checks list, then retotal checks amount total
         function deleteCheck(index) {
-            if(vm.mode === 'CREATE') {
-                depositService.checks.splice(index, 1);
-                vm.getChecksTotal();
-                depositService.checksTotalAmount = vm.checksTotalAmount;
-            } else if(vm.mode === 'EDIT') {
-                depositService.depositToEdit.checks.splice(index, 1);
-                vm.getChecksTotal();
-                depositService.depositToEdit.checksTotalAmount = vm.checksTotalAmount;
-            }
+            depositObj.checks.splice(index, 1);
+            vm.getChecksTotal();
+            depositObj.checksTotalAmount = vm.checksTotalAmount;
             console.log (depositService);
         }
 
@@ -110,17 +93,18 @@
         function retake(check, account) {
             $ionicHistory.clearCache();
             $state.go('app.capture-check', {hashKey: check.$$hashKey});
-            depositService.account = account;
-            depositService.checkAmount = check.checkAmount;
-            depositService.checkFrontImage = check.checkFrontImage;
-            depositService.checkBackImage = check.checkBackImage;
-            console.log (depositService);
+            checkObj.account = account;
+            checkObj.checkAmount = check.checkAmount;
+            checkObj.checkFrontImage = check.checkFrontImage;
+            checkObj.checkBackImage = check.checkBackImage;
+            console.log ('going from depositReview to captureCheck: ' + angular.toJson(depositService));
         }
 
         //changes state to app.check-capture
         function addCheck() {
             $ionicHistory.clearCache();
             $state.go('app.capture-check');
+            checkObj.account = depositObj.account;
             console.log(depositService);
         }
 

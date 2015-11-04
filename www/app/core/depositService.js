@@ -12,15 +12,21 @@
         var service = {
             loadAccounts: loadAccounts,
             cancelDeposit: cancelDeposit,
-            mode: null,
             type: null,
-            account: null,
-            checksTotalAmount: null,
-            checkAmount: null,
-            checkFrontImage: null,
-            checkBackImage: null,
-            checks: [],
-            depositToEdit: null
+            mode: null,
+            checkObj: {
+                account: null,
+                checkAmount: null,
+                checkFrontImage: null,
+                checkBackImage: null
+            },
+            depositObj: {
+                account: null,
+                userDefinedDepositAmount: null,
+                checksTotalAmount: null,
+                checks: [],
+                status: null
+            }
         };
 
         return service;
@@ -66,15 +72,17 @@
                 }]
             }).then(function(res) {
                 if(res) {
-                    service.account = null;
                     service.type = null;
-                    service.checkAmount = null;
-                    service.checksTotalAmount = null;
-                    service.checkFrontImage = null;
-                    service.checkBackImage = null;
-                    service.checks = [];
-                    service.depositToEdit = null;
-                    service.mode = null;
+                    service.mode= null;
+                    service.checkObj.account = null;
+                    service.checkObj.checkAmount= null;
+                    service.checkObj.checkFrontImage= null;
+                    service.checkObj.checkBackImage= null;
+                    service.depositObj.account= null;
+                    service.depositObj.userDefinedDepositAmount= null;
+                    service.depositObj.checksTotalAmount= null;
+                    service.depositObj.checks=  [];
+                    service.depositObj.status= null;
                     $ionicHistory.clearCache();
                     $state.go('app.deposit');
 

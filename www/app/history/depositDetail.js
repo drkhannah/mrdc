@@ -79,11 +79,11 @@
         function resubmitDeposit(deposit) {
             //send deposit to service
             $state.go('app.deposit-review');
-            depositService.depositToEdit = {};
-            depositService.depositToEdit = deposit;
+            depositService.depositObj = {};
+            depositService.depositObj = deposit;
             depositService.mode = 'EDIT';
             depositService.type = deposit.type;
-            console.log(depositService)
+            console.log('going from depositDetail to depositReview: ' + depositService);
         }
 
     }
