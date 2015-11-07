@@ -3,11 +3,11 @@
 
     angular
         .module('app')
-        .run(appRun)
+        .run(appRun);
 
-        appRun.$inject = ['$ionicPlatform'];
+        appRun.$inject = ['$ionicPlatform', '$rootScope'];
 
-        function appRun($ionicPlatform){
+        function appRun($ionicPlatform, $rootScope){
             $ionicPlatform.ready(function() {
                 // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
                 // for form inputs)
@@ -21,6 +21,14 @@
                     // org.apache.cordova.statusbar required
                     StatusBar.styleDefault();
                 }
+
+                //listen for state change errors
+                $rootScope.$on('$stateChangeError',
+                    function(event, toState, toParams, fromState, fromParams, error){
+                        console.log('STATE CHANGE ERROR: Event:' + angular.toJson(event) + ' toState:'
+                            + angular.toJson(toState) + ' toParams:' + angular.toJson(toParams) + ' fromState:'
+                            + angular.toJson(fromState) + ' fromParams:' + angular.toJson(fromParams) + ' Error:' + error);
+                    });
             });
         }
 
