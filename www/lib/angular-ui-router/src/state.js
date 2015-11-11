@@ -453,7 +453,7 @@ function $StateProvider(   $urlRouterProvider,   $urlMatcherFactory) {
    *   the router will wait for them all to be resolved before the controller is instantiated.
    *   If all the promises are resolved successfully, the $stateChangeSuccess event is fired
    *   and the values of the resolved promises are injected into any controllers that reference them.
-   *   If any  of the promises are rejected the $stateChangeError event is fired.
+   *   If any  of the promises are reject the $stateChangeError event is fired.
    *
    *   The map object is:
    *   
@@ -721,7 +721,7 @@ function $StateProvider(   $urlRouterProvider,   $urlMatcherFactory) {
        * The event is broadcast allowing any handlers a single chance to deal with the error (usually by
        * lazy-loading the unfound state). A special `unfoundState` object is passed to the listener handler,
        * you can see its three properties in the example. You can use `event.preventDefault()` to abort the
-       * transition and the promise returned from `go` will be rejected with a `'transition aborted'` value.
+       * transition and the promise returned from `go` will be reject with a `'transition aborted'` value.
        *
        * @param {Object} event Event object.
        * @param {Object} unfoundState Unfound State information. Contains: `to, toParams, options` properties.
@@ -997,7 +997,7 @@ function $StateProvider(   $urlRouterProvider,   $urlMatcherFactory) {
          * @description
          * Fired when the state transition **begins**. You can use `event.preventDefault()`
          * to prevent the transition from happening and then the transition promise will be
-         * rejected with a `'transition prevented'` value.
+         * reject with a `'transition prevented'` value.
          *
          * @param {Object} event Event object.
          * @param {State} toState The state being transitioned to.
@@ -1011,7 +1011,7 @@ function $StateProvider(   $urlRouterProvider,   $urlMatcherFactory) {
          * $rootScope.$on('$stateChangeStart',
          * function(event, toState, toParams, fromState, fromParams){
          *     event.preventDefault();
-         *     // transitionTo() promise will be rejected with
+         *     // transitionTo() promise will be reject with
          *     // a 'transition prevented' error
          * })
          * </pre>

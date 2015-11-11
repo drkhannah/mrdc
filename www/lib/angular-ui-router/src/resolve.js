@@ -211,9 +211,9 @@ function $Resolve(  $q,    $injector) {
    * The promise will resolve after the `parent` promise (if any) and all promises 
    * returned by injectables have been resolved. If any invocable 
    * (or `$injector.invoke`) throws an exception, or if a promise returned by an 
-   * invocable is rejected, the `$resolve` promise is immediately rejected with the 
+   * invocable is reject, the `$resolve` promise is immediately reject with the
    * same error. A rejection of a `parent` promise (if specified) will likewise be 
-   * propagated immediately. Once the `$resolve` promise has been rejected, no 
+   * propagated immediately. Once the `$resolve` promise has been reject, no
    * further invocables will be called.
    * 
    * Cyclic dependencies between invocables are not permitted and will caues `$resolve`

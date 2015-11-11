@@ -2,26 +2,26 @@
     'use strict';
 
     angular
-        .module('app.history')
+        .module('app.review')
         .config(stateProvider)
-        .controller('HistoryController', HistoryController);
+        .controller('ReviewController', ReviewController);
 
     stateProvider.$inject = ['$stateProvider'];
-    HistoryController.$inject = ['historyPromise'];
+    ReviewController.$inject = ['reviewPromise'];
 
     /* @ngInject */
     function stateProvider($stateProvider){
         $stateProvider
-            .state('app.history', {
+            .state('app.review', {
                 cache: false,
-                url: '/history',
+                url: '/review',
                 views: {
                     'menuContent': {
-                        templateUrl: 'app/history/history.html',
-                        controller: 'HistoryController as vm',
+                        templateUrl: 'app/review/review.html',
+                        controller: 'ReviewController as vm',
                         resolve: {
-                            historyPromise: function(historyService){
-                                return historyService.loadHistory();
+                            reviewPromise: function(reviewService){
+                                return reviewService.getDeposits();
                             }
                         }
                     }
@@ -30,13 +30,13 @@
     }
 
     /* @ngInject */
-    function HistoryController(historyPromise) {
+    function ReviewController(reviewPromise) {
         /* jshint validthis: true */
         var vm = this;
 
         vm.activate = activate;
-        vm.title = 'History';
-        vm.history = historyPromise.deposits;
+        vm.title = 'Deposit Review';
+        vm.deposits = reviewPromise.deposits;
         activate();
 
         ////////////////

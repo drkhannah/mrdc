@@ -21813,11 +21813,11 @@ function $ParseProvider() {
  * **Methods**
  *
  * - `resolve(value)` – resolves the derived promise with the `value`. If the value is a rejection
- *   constructed via `$q.reject`, the promise will be rejected instead.
+ *   constructed via `$q.reject`, the promise will be reject instead.
  * - `reject(reason)` – rejects the derived promise with the `reason`. This is equivalent to
  *   resolving it with a rejection constructed via `$q.reject`.
  * - `notify(value)` - provides updates on the status of the promise's execution. This may be called
- *   multiple times before the promise is either resolved or rejected.
+ *   multiple times before the promise is either resolved or reject.
  *
  * **Properties**
  *
@@ -21835,21 +21835,21 @@ function $ParseProvider() {
  * **Methods**
  *
  * - `then(successCallback, errorCallback, notifyCallback)` – regardless of when the promise was or
- *   will be resolved or rejected, `then` calls one of the success or error callbacks asynchronously
+ *   will be resolved or reject, `then` calls one of the success or error callbacks asynchronously
  *   as soon as the result is available. The callbacks are called with a single argument: the result
  *   or rejection reason. Additionally, the notify callback may be called zero or more times to
- *   provide a progress indication, before the promise is resolved or rejected.
+ *   provide a progress indication, before the promise is resolved or reject.
  *
- *   This method *returns a new promise* which is resolved or rejected via the return value of the
+ *   This method *returns a new promise* which is resolved or reject via the return value of the
  *   `successCallback`, `errorCallback`. It also notifies via the return value of the
- *   `notifyCallback` method. The promise cannot be resolved or rejected from the notifyCallback
+ *   `notifyCallback` method. The promise cannot be resolved or reject from the notifyCallback
  *   method.
  *
  * - `catch(errorCallback)` – shorthand for `promise.then(null, errorCallback)`
  *
  * - `finally(callback, notifyCallback)` – allows you to observe either the fulfillment or rejection of a promise,
  *   but to do so without modifying the final value. This is useful to release resources or do some
- *   clean-up that needs to be done whether the promise was rejected or resolved. See the [full
+ *   clean-up that needs to be done whether the promise was reject or resolved. See the [full
  *   specification](https://github.com/kriskowal/q/wiki/API-Reference#promisefinallycallback) for
  *   more information.
  *
@@ -21972,11 +21972,11 @@ function qFactory(nextTick, exceptionHandler) {
   }
 
   Promise.prototype = {
-    then: function(onFulfilled, onRejected, progressBack) {
+    then: function(onFulfilled, onreject, progressBack) {
       var result = new Deferred();
 
       this.$$state.pending = this.$$state.pending || [];
-      this.$$state.pending.push([result, onFulfilled, onRejected, progressBack]);
+      this.$$state.pending.push([result, onFulfilled, onreject, progressBack]);
       if (this.$$state.status > 0) scheduleProcessQueue(this.$$state);
 
       return result.promise;
@@ -22111,7 +22111,7 @@ function qFactory(nextTick, exceptionHandler) {
    * @kind function
    *
    * @description
-   * Creates a promise that is resolved as rejected with the specified `reason`. This api should be
+   * Creates a promise that is resolved as reject with the specified `reason`. This api should be
    * used to forward rejection in a chain of promises. If you are dealing with the last promise in
    * a promise chain, you don't need to worry about it.
    *
@@ -22139,7 +22139,7 @@ function qFactory(nextTick, exceptionHandler) {
    * ```
    *
    * @param {*} reason Constant, message, exception or an object representing the rejection reason.
-   * @returns {Promise} Returns a promise that was already resolved as rejected with the `reason`.
+   * @returns {Promise} Returns a promise that was already resolved as reject with the `reason`.
    */
   var reject = function(reason) {
     var result = new Deferred();
@@ -22208,7 +22208,7 @@ function qFactory(nextTick, exceptionHandler) {
    * @param {Array.<Promise>|Object.<Promise>} promises An array or hash of promises.
    * @returns {Promise} Returns a single promise that will be resolved with an array/hash of values,
    *   each value corresponding to the promise at the same index/key in the `promises` array/hash.
-   *   If any of the promises is resolved with a rejection, this resulting promise will be rejected
+   *   If any of the promises is resolved with a rejection, this resulting promise will be reject
    *   with the same rejection value.
    */
 
@@ -31364,7 +31364,7 @@ is set to `true`. The parse error is stored in `ngModel.$error.parse`.
  * @property {Object.<string, function>} $asyncValidators A collection of validations that are expected to
  *      perform an asynchronous validation (e.g. a HTTP request). The validation function that is provided
  *      is expected to return a promise when it is run during the model validation process. Once the promise
- *      is delivered then the validation status will be set to true when fulfilled and false when rejected.
+ *      is delivered then the validation status will be set to true when fulfilled and false when reject.
  *      When the asynchronous validators are triggered, each of the validators will run in parallel and the model
  *      value will only be updated once all validators have been fulfilled. As long as an asynchronous validator
  *      is unfulfilled, its key will be added to the controllers `$pending` property. Also, all asynchronous validators
@@ -31382,7 +31382,7 @@ is set to `true`. The parse error is stored in `ngModel.$error.parse`.
  *      then(function resolved() {
  *        //username exists, this means validation fails
  *        return $q.reject('exists');
- *      }, function rejected() {
+ *      }, function reject() {
  *        //username does not exist, therefore this validation passes
  *        return true;
  *      });
@@ -38316,9 +38316,9 @@ function $Resolve(  $q,    $injector) {
    * The promise will resolve after the `parent` promise (if any) and all promises 
    * returned by injectables have been resolved. If any invocable 
    * (or `$injector.invoke`) throws an exception, or if a promise returned by an 
-   * invocable is rejected, the `$resolve` promise is immediately rejected with the 
+   * invocable is reject, the `$resolve` promise is immediately reject with the
    * same error. A rejection of a `parent` promise (if specified) will likewise be 
-   * propagated immediately. Once the `$resolve` promise has been rejected, no 
+   * propagated immediately. Once the `$resolve` promise has been reject, no
    * further invocables will be called.
    * 
    * Cyclic dependencies between invocables are not permitted and will caues `$resolve`
@@ -40373,7 +40373,7 @@ function $StateProvider(   $urlRouterProvider,   $urlMatcherFactory) {
    *   the router will wait for them all to be resolved before the controller is instantiated.
    *   If all the promises are resolved successfully, the $stateChangeSuccess event is fired
    *   and the values of the resolved promises are injected into any controllers that reference them.
-   *   If any  of the promises are rejected the $stateChangeError event is fired.
+   *   If any  of the promises are reject the $stateChangeError event is fired.
    *
    *   The map object is:
    *   
@@ -40641,7 +40641,7 @@ function $StateProvider(   $urlRouterProvider,   $urlMatcherFactory) {
        * The event is broadcast allowing any handlers a single chance to deal with the error (usually by
        * lazy-loading the unfound state). A special `unfoundState` object is passed to the listener handler,
        * you can see its three properties in the example. You can use `event.preventDefault()` to abort the
-       * transition and the promise returned from `go` will be rejected with a `'transition aborted'` value.
+       * transition and the promise returned from `go` will be reject with a `'transition aborted'` value.
        *
        * @param {Object} event Event object.
        * @param {Object} unfoundState Unfound State information. Contains: `to, toParams, options` properties.
@@ -40917,7 +40917,7 @@ function $StateProvider(   $urlRouterProvider,   $urlMatcherFactory) {
          * @description
          * Fired when the state transition **begins**. You can use `event.preventDefault()`
          * to prevent the transition from happening and then the transition promise will be
-         * rejected with a `'transition prevented'` value.
+         * reject with a `'transition prevented'` value.
          *
          * @param {Object} event Event object.
          * @param {State} toState The state being transitioned to.
@@ -40931,7 +40931,7 @@ function $StateProvider(   $urlRouterProvider,   $urlMatcherFactory) {
          * $rootScope.$on('$stateChangeStart',
          * function(event, toState, toParams, fromState, fromParams){
          *     event.preventDefault();
-         *     // transitionTo() promise will be rejected with
+         *     // transitionTo() promise will be reject with
          *     // a 'transition prevented' error
          * })
          * </pre>

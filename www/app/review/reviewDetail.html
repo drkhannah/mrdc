@@ -1,7 +1,4 @@
 <ion-view view-title="{{vm.title}}">
-  <ion-nav-buttons side="right">
-    <button ng-hide="vm.status !== 'reject'" class="button button-icon button-clear ion-loop" data-ng-click="vm.resubmitDeposit(vm.deposit)"></button>
-  </ion-nav-buttons>
   <ion-content scroll="false">
     <!-- View Banner -->
     <div>
@@ -31,4 +28,16 @@
       </ion-list>
     </ion-scroll>
   </ion-content>
+  <!--Tab Footer-->
+  <div class="tabs">
+    <a class="tab-item" data-ng-click="vm.selectStatus(vm.reject)">
+      {{vm.reject}}
+    </a>
+    <a class="tab-item" data-ng-click="vm.selectStatus(vm.release)">
+      {{vm.release}}
+    </a>
+    <a class="tab-item" data-ng-click="vm.selectStatus(vm.approve)">
+      {{vm.approve}}
+    </a>
+  </div>
 </ion-view>
