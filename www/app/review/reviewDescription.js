@@ -7,7 +7,7 @@
         .controller('ReviewDescriptionController', ReviewDescriptionController);
 
     stateProvider.$inject = ['$stateProvider'];
-    ReviewDescriptionController.$inject = ['reviewedDeposit', '$state', 'reviewService'];
+    ReviewDescriptionController.$inject = ['reviewedDeposit', '$state', 'reviewService', '$ionicHistory'];
 
     /* @ngInject */
     function stateProvider($stateProvider){
@@ -30,7 +30,7 @@
     }
 
     /* @ngInject */
-    function ReviewDescriptionController(reviewedDeposit, $state, reviewService) {
+    function ReviewDescriptionController(reviewedDeposit, $state, reviewService, $ionicHistory) {
         /* jshint validthis: true */
         var vm = this;
 
@@ -55,6 +55,10 @@
 
         function submitStatus(){
             reviewService.reviewedDeposit = {};
+            $ionicHistory.nextViewOptions({
+                disableBack: true
+            });
+            $ionicHistory.clearCache();
             $state.go('app.review')
         }
     }
